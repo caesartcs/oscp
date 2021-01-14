@@ -1,10 +1,7 @@
 # Chapter 3 - Exploiting Vulnerabilities
 
-> _That was the division in the hacking world: There were people who were exploring it and the people who were trying to make money from it. And, generally, you stayed away from anyone who was trying to make money from it._
->
-> _**— **_**Jeff Moss**
 
-&nbsp;
+
 ## Finding Exploits
 
 ##### Search Exploit-DB

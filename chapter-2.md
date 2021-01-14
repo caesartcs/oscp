@@ -1,12 +1,6 @@
 # Chapter 2 - Recon & Enumeration
 
----
 
-> _It is imperative that a scout should know the history, tradition, religion, social customs, and superstitions of whatever country or people he is called on to work in or among. This is almost as necessary as to know the physical character of the country, its climate and products. Certain people will do certain things almost without fail. Certain other things, perfectly feasible, they will not do. There is no danger of knowing too much of the mental habits of an enemy. One should neither underestimate the enemy nor credit him with superhuman powers. Fear and courage are latent in every human being, though roused into activity by very diverse means._
->
-> _**— **_**Frederick Russell Burnham**
-
-This is what I refer to as first-pass enumeration, or enumeration from the outside. We take the time to identify all running services and open ports and identify what they are, what they do and how we can communicate with them
 
 ## Information Gathering
 
@@ -49,6 +43,19 @@ Kali> amap -bqv1 1-65535 $TARGET
 ```
 
 > ###### TTL Fingerprinting
+
+TTL can help us determine the operating system of the target machine.
+In a basic ping command, an output would look similar to the following:
+```
+> ping 10.10.10.10
+
+PING 10.10.10.10 (10.10.10.10) 56(84) bytes of data.
+64 bytes from 10.10.10.10: icmp_seq=1 ttl=127 time=88.4 ms
+```
+
+The *TTL drops 1* each time it passes through a router. If in the above example the `ttl=127`, then it is safe to assume (from this information alone) that the host, 10.10.10.10, is a **Linux host**. 
+
+TTL table and thier operating system listed below.
 
 | Operating System | TTL |
 | :--- | :--- |
@@ -154,9 +161,26 @@ Kali> nmap -p 23 --script telnet-ntlm-info $TARGET
 hydra -l root -P /root/SecLists/Passwords/10_million_password_list_top_100.txt $TARGET telnet
 ```
 
-##### HTTP - 80 TCP
+##### HTTP - 80 TCP / 8080
 
-Stop what you're doing and go check the source code, yes all of it.
+Check source code.
+
+> ###### Banner Checking
+
+If an NMAP script returns back a banner, google it to see what app it may belong to.
+
+```
+Kali> nmap -v -sC -sV $TARGET
+Nmap scan report for $TARGET
+...
+8080/tcp open   upnp    Microsoft IIS httpd
+| http-auth:
+| HTTP/1.1 401 Unauthorized\x0D
+|       Basic realm=Windows Device Portal
+```
+
+The http banner in the example NMAP scan above is **Windows Device Portal**.
+
 
 > ###### CMSHunter
 

